@@ -3,6 +3,8 @@ import json
 from datetime import datetime
 import os
 
+# update
+
 if not os.path.exists('data'):
     os.makedirs('data')
 
