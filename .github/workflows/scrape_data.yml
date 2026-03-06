@@ -20,8 +20,8 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Run scraper
-        run: python scraper.py
+      - name: Run download_data
+        run: python download_data.py
 
       - name: Commit and Push changes
         run: |
