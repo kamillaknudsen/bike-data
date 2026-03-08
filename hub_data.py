@@ -6,7 +6,7 @@ import os
 if not os.path.exists('data'):
     os.makedirs('data')
 
-url = "https://mds.dashboarddeelmobiliteit.nl/stops?municipality=GM0363"
+url = "https://mds.dashboarddeelmobiliteit.nl/stops"
 
 try:
     response = requests.get(url)
