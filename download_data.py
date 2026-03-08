@@ -15,6 +15,9 @@ try:
     json_data = response.json()
     vehicles = json_data["data"]["vehicles"]
 
+    lat_min, lat_max = 51.837, 51.998
+    lon_min, lon_max = 4.256, 4.712
+
     timestamp_str = json_data["last_updated"]
     timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
 
@@ -42,20 +45,24 @@ try:
             ])
 
         for v in vehicles:
+            lat = v.get("lat")
+            lon = v.get("lon")
 
-            if v.get("form_factor") == "bicycle":
+            if lat is not None and lon is not None:
+                if lat_min <= v.get("lat") <= lat_max and lon_min <= v.get("lon") <= lon_max:
+                    if v.get("form_factor") == "bicycle":
 
-                writer.writerow([
-                    timestamp_str,
-                    v.get("system_id"),
-                    v.get("vehicle_id"),
-                    v.get("lat"),
-                    v.get("lon"),
-                    v.get("is_reserved"),
-                    v.get("is_disabled"),
-                    v.get("form_factor"),
-                    v.get("propulsion_type")
-                ])
+                        writer.writerow([
+                            timestamp_str,
+                            v.get("system_id"),
+                            v.get("vehicle_id"),
+                            v.get("lat"),
+                            v.get("lon"),
+                            v.get("is_reserved"),
+                            v.get("is_disabled"),
+                            v.get("form_factor"),
+                            v.get("propulsion_type")
+                        ])
 
     print(f"Saved bike snapshot at {time_str}")
 

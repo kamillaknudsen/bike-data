@@ -13,6 +13,9 @@ try:
     response.raise_for_status()
     json_data = response.json()
 
+    lat_min, lat_max = 51.837, 51.998
+    lon_min, lon_max = 4.256, 4.712
+
     stops = json_data.get("data", {}).get("stops", [])
     timestamp = datetime.now().isoformat()
 
@@ -31,16 +34,20 @@ try:
             ])
 
         for stop in stops:
-            writer.writerow([
-                timestamp,
-                stop.get("stop_id"),
-                stop.get("name"),
-                stop["location"]["geometry"]["coordinates"][1], # Lat
-                stop["location"]["geometry"]["coordinates"][0], # Lon
-                stop.get("capacity", {}).get("bicycle", 0),
-                stop.get("num_vehicles_available", {}).get("bicycle", 0),
-                stop.get("num_places_available", {}).get("bicycle", 0)
-            ])
+            lat = stop["location"]["geometry"]["coordinates"][1]
+            lon = stop["location"]["geometry"]["coordinates"][0]
+
+            if lat_min <= lat <= lat_max and lon_min <= lon <= lon_max:
+                writer.writerow([
+                    timestamp,
+                    stop.get("stop_id"),
+                    stop.get("name"),
+                    stop["location"]["geometry"]["coordinates"][1], # Lat
+                    stop["location"]["geometry"]["coordinates"][0], # Lon
+                    stop.get("capacity", {}).get("bicycle", 0),
+                    stop.get("num_vehicles_available", {}).get("bicycle", 0),
+                    stop.get("num_places_available", {}).get("bicycle", 0)
+                ])
 
     print(f"Successfully logged {len(stops)} hubs to {filename}")
 
