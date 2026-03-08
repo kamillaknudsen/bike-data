@@ -17,7 +17,7 @@ try:
     timestamp = datetime.now().isoformat()
 
     today_date = datetime.now().strftime("%Y-%m-%d")
-    filename = f"data/hubs/hubs_{today_date}.csv"
+    filename = f"data/hubs_{today_date}.csv"
 
     file_exists = os.path.isfile(filename)
 
