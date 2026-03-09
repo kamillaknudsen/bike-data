@@ -50,7 +50,7 @@ try:
 
             if lat is not None and lon is not None:
                 if lat_min <= v.get("lat") <= lat_max and lon_min <= v.get("lon") <= lon_max:
-                    if v.get("form_factor") == "bicycle" and v.get('propulsion_type') != "electric_assist":
+                    if v.get("form_factor") == "bicycle": # and v.get('propulsion_type') != "electric_assist":
 
                         writer.writerow([
                             timestamp_str,
