@@ -38,13 +38,15 @@ try:
             lon = stop["location"]["geometry"]["coordinates"][0]
 
             if lat_min <= lat <= lat_max and lon_min <= lon <= lon_max:
+                capacity_data = stop.get("capacity", {})
+                bike_cap = capacity_data.get("bicycle") or capacity_data.get("combined") or 0
                 writer.writerow([
                     timestamp,
                     stop.get("stop_id"),
                     stop.get("name"),
-                    stop["location"]["geometry"]["coordinates"][1], # Lat
-                    stop["location"]["geometry"]["coordinates"][0], # Lon
-                    stop.get("capacity", {}).get("bicycle", 0),
+                    lat,
+                    lon,
+                    bike_cap,
                     stop.get("num_vehicles_available", {}).get("bicycle", 0),
                     stop.get("num_places_available", {}).get("bicycle", 0)
                 ])
